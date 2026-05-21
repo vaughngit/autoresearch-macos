@@ -158,6 +158,40 @@ Simply spin up your Claude/Codex or whatever you want in this repo (and disable 
 Hi have a look at program.md and let's kick off a new experiment! let's do the setup first.
 ```
 
+After setup is complete and the baseline is recorded, the next step is not for you to run the Python command again manually. The next step is to tell the coding agent to begin the autonomous research loop.
+
+Use a prompt like:
+
+```
+Start the research loop. Try to improve val_bpb from the baseline, update results.tsv after each run, and keep going until I stop you.
+```
+
+At that point, the agent should handle the loop:
+
+```
+1. Pick an experiment idea.
+2. Edit train.py.
+3. Commit the experiment.
+4. Run uv run train.py > run.log 2>&1.
+5. Read run.log.
+6. Update results.tsv.
+7. Keep the change if val_bpb improves.
+8. Revert or discard the change if val_bpb gets worse.
+9. Repeat.
+```
+
+So there are two different "next steps" depending on who is driving:
+
+```
+Manual human workflow:
+  You run uv run train.py > run.log 2>&1 yourself.
+  Then you or the agent records the result.
+
+Autonomous agent workflow:
+  You tell the agent: Start the research loop.
+  The agent runs uv run train.py > run.log 2>&1 as one step inside the loop.
+```
+
 The `program.md` file is essentially a super lightweight "skill".
 
 ## Project structure
