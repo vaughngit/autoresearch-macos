@@ -43,6 +43,111 @@ uv run train.py
 
 If the above commands all work ok, your setup is working and you can go into autonomous research mode.
 
+## Mental model: script vs research agent
+
+There are two different things involved in this project, and it is easy to mix them up at first:
+
+1. **The training script**: `uv run train.py`
+2. **The research agent**: Codex, Claude, or another coding agent following `program.md`
+
+`uv run train.py` only runs one training experiment. It trains whatever model is currently defined in `train.py`, prints metrics like `val_bpb`, and exits. If you run:
+
+```bash
+uv run train.py > run.log 2>&1
+```
+
+then the script's output is saved to `run.log` instead of being printed to the terminal. That command does not edit code, choose an experiment, commit anything, compare against previous runs, or update `results.tsv`.
+
+The research agent is the loop around the script. The agent reads `program.md`, edits `train.py`, runs the training command, reads `run.log`, records the result in `results.tsv`, keeps changes that improve validation score, discards changes that make it worse, and repeats.
+
+In short:
+
+```
+uv run train.py
+  Runs the current model once.
+  Produces metrics.
+  Exits.
+
+research agent
+  Chooses experiment ideas.
+  Edits train.py.
+  Runs uv run train.py.
+  Reads run.log.
+  Updates results.tsv.
+  Keeps or discards changes.
+  Repeats.
+```
+
+A useful analogy:
+
+```
+uv run train.py = run the race once
+research agent = coach who changes the training plan, runs races, records scores, and keeps improving
+```
+
+## Interactive training workflow
+
+If you are learning the project manually, the most useful workflow is:
+
+```bash
+# Prepare the dataset and tokenizer once.
+uv run prepare.py
+
+# Run one experiment and save all output.
+uv run train.py > run.log 2>&1
+
+# Read the key metrics.
+grep "^val_bpb:\|^peak_vram_mb:\|^training_seconds:\|^total_seconds:" run.log
+```
+
+Then add a row to `results.tsv` yourself or have the agent do it. The results file is deliberately a plain tab-separated log:
+
+```
+commit	val_bpb	memory_gb	status	description
+```
+
+For this macOS/MPS fork, `peak_vram_mb` may show `0.0` even when the Apple GPU is being used. The current code only measures CUDA peak memory with `torch.cuda.max_memory_allocated()`. On Apple Silicon, the code still uses GPU acceleration through PyTorch MPS when available.
+
+Device selection happens in `train.py`:
+
+```python
+device_type = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
+```
+
+On an Apple Silicon Mac without an NVIDIA GPU, this chooses `mps`.
+
+## Current folktales branch state
+
+This branch is configured for the Hugging Face dataset:
+
+```
+merve/folk-mythology-tales
+```
+
+The data prep cache is dataset-specific:
+
+```
+~/.cache/autoresearch/folk-mythology-tales/
+```
+
+The prepared files are:
+
+```
+data/raw_train.parquet   original downloaded Hugging Face parquet
+data/train.parquet       local training split
+data/val.parquet         local validation split
+tokenizer/tokenizer.pkl  trained tokenizer
+tokenizer/token_bytes.pt token byte-length lookup for BPB evaluation
+```
+
+The baseline run on this branch produced:
+
+```
+val_bpb: 1.842572
+```
+
+Lower `val_bpb` is better. Future experiments should try to beat that number.
+
 **Platforms support**. This fork officially supports **macOS (Apple Silicon / MPS)** and CPU environments, while preserving the original NVIDIA GPU support. It removes the hardcoded dependency on FlashAttention-3, falling back to PyTorch's native Scaled Dot Product Attention (SDPA) with manual sliding window causal masking when needed. It also features MPS-specific optimizations (disabling unsupported `torch.compile` paths, lowering memory batch sizes for Metal bounds, and precisely casting optimizer states) allowing you to run autonomous research agents directly on your Mac!
 
 ## Running the agent
@@ -58,11 +163,21 @@ The `program.md` file is essentially a super lightweight "skill".
 ## Project structure
 
 ```
-prepare.py      — constants, data prep + runtime utilities (do not modify)
-train.py        — model, optimizer, training loop (agent modifies this)
-program.md      — agent instructions
-pyproject.toml  — dependencies
+prepare.py      — data preparation, tokenizer training, dataloader, fixed evaluation
+train.py        — model, optimizer, hyperparameters, training loop
+program.md      — instructions the research agent follows
+results.tsv     — experiment scoreboard, updated after each completed run
+run.log         — raw output from the most recent redirected training run, usually uncommitted
+pyproject.toml  — Python dependencies
 ```
+
+### What each file does
+
+- **`prepare.py`** downloads and prepares data. On this branch it downloads `merve/folk-mythology-tales`, creates local train/validation parquet files, trains the tokenizer, and exposes the dataloader and validation metric. During research experiments this file should be treated as fixed.
+- **`train.py`** is the experiment surface. The agent changes model size, architecture, optimizer settings, batch sizes, learning rates, and training-loop details here.
+- **`program.md`** is the agent playbook. It tells the coding agent how to set up a branch, run experiments, record results, and decide whether to keep or discard a change.
+- **`results.tsv`** is the scoreboard. `train.py` does not update it automatically; the agent or human records each experiment after reading `run.log`.
+- **`run.log`** is the captured output from a training run. It is useful for debugging and metric extraction, but it is normally not committed.
 
 ## Design choices
 
