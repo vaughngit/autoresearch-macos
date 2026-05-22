@@ -49,6 +49,7 @@ This branch includes two short guides for the concepts that are easiest to confu
 
 - [Autoresearch Workflow Guide](docs/autoresearch-workflow.md) explains what the training script does, what the research agent does, how `run.log` and `results.tsv` work, and the exact prompt to start the autonomous loop.
 - [Folktales Data Pipeline](docs/folktales-data-pipeline.md) explains how `prepare.py` downloads and prepares `merve/folk-mythology-tales`.
+- [Data Pipeline Explained](docs/data_pipeline_explained.html) is the original plain-English HTML walkthrough of the dataset preparation flow.
 - [Folktales Training Run Explained](docs/experiment-run-explained.html) explains the first autoresearch run in plain English: what a model is, which parameters changed, why they mattered, and what each experiment taught us.
 
 **Platforms support**. This fork officially supports **macOS (Apple Silicon / MPS)** and CPU environments, while preserving the original NVIDIA GPU support. It removes the hardcoded dependency on FlashAttention-3, falling back to PyTorch's native Scaled Dot Product Attention (SDPA) with manual sliding window causal masking when needed. It also features MPS-specific optimizations (disabling unsupported `torch.compile` paths, lowering memory batch sizes for Metal bounds, and precisely casting optimizer states) allowing you to run autonomous research agents directly on your Mac!
