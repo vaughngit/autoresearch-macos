@@ -12,3 +12,4 @@ ebd05a9	1.675139	0.0	keep	wider two layer model aspect 128
 9c85de3	1.673504	0.0	keep	lower matrix LR 0.03 on wide shallow model
 d8d9ada	1.696371	0.0	discard	matrix LR 0.02
 e231ae8	1.687227	0.0	discard	matrix LR 0.025
+bbcd935	1.674151	0.0	discard	lower embedding LR 0.4
