@@ -24,3 +24,4 @@ c159cd6	1.679404	0.0	discard	weight decay 0.4
 c3240b1	1.668412	0.0	discard	weight decay 0.35
 23c828c	1.666993	0.0	discard	warmdown ratio 0.4
 917dc6f	1.671743	0.0	discard	warmdown ratio 0.6
+248d8a5	1.683263	0.0	discard	nonzero final LR frac 0.1
