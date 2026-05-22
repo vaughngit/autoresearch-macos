@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Folktales Autoresearch Run Explained</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --paper: #ffffff;
+      --ink: #18212f;
+      --muted: #5f6875;
+      --line: #d9dfe7;
+      --accent: #0f6b5f;
+      --accent-soft: #e6f3f0;
+      --bad: #8a3a2b;
+      --bad-soft: #fff0ed;
+      --good: #24613a;
+      --good-soft: #eaf6ee;
+      --code: #26384d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 42px 0 28px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px 0 18px;
+    }
+
+    nav a {
+      color: var(--accent);
+      text-decoration: none;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: .95rem;
+    }
+
+    main {
+      padding: 28px 0 58px;
+    }
+
+    section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.55rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 22px 0 8px;
+      font-size: 1.12rem;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 12px;
+      padding-left: 1.3rem;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    code,
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    code {
+      color: var(--code);
+      background: #edf1f5;
+      padding: 1px 5px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    pre {
+      overflow-x: auto;
+      color: #f8fbff;
+      background: #1d2938;
+      border-radius: 7px;
+      padding: 14px 16px;
+      line-height: 1.45;
+      margin: 12px 0;
+    }
+
+    pre code {
+      color: inherit;
+      background: transparent;
+      padding: 0;
+      white-space: pre;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: .95rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+    }
+
+    th {
+      background: #f1f4f7;
+      font-weight: 700;
+    }
+
+    .callout {
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin: 12px 0;
+    }
+
+    .good {
+      background: var(--good-soft);
+      border-left-color: var(--good);
+    }
+
+    .bad {
+      background: var(--bad-soft);
+      border-left-color: var(--bad);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfd;
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.05rem;
+    }
+
+    .score {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    .term {
+      display: grid;
+      grid-template-columns: minmax(160px, 240px) 1fr;
+      gap: 10px 18px;
+      border-bottom: 1px solid var(--line);
+      padding: 11px 0;
+    }
+
+    .term strong {
+      color: var(--code);
+    }
+
+    footer {
+      color: var(--muted);
+      padding: 18px 0 32px;
+      font-size: .94rem;
+    }
+
+    @media (max-width: 760px) {
+      section {
+        padding: 18px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .term {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <h1>Folktales Training Run Explained</h1>
+      <p class="subtitle">
+        A layperson-friendly explanation of what happened during the autoresearch loop:
+        what a model is, which knobs were adjusted, why those knobs matter, and what the
+        experiments taught us.
+      </p>
+    </div>
+    <div class="wrap">
+      <nav aria-label="Page sections">
+        <a href="#short-version">Short Version</a>
+        <a href="#model">What Is A Model?</a>
+        <a href="#loop">What The Agent Did</a>
+        <a href="#parameters">Parameters</a>
+        <a href="#results">Results</a>
+        <a href="#lessons">Lessons</a>
+        <a href="#glossary">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="short-version">
+      <h2>Short Version</h2>
+      <p>
+        The research loop ran many small experiments against the same folktales dataset. Each
+        experiment changed one or two training settings in <code>train.py</code>, trained the model
+        for the same 5-minute budget, measured <code>val_bpb</code>, and kept only changes that
+        improved the score.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <strong>Starting score</strong>
+          <div class="score">1.842572</div>
+          <p>Baseline validation BPB before experiments.</p>
+        </div>
+        <div class="card">
+          <strong>Best score found</strong>
+          <div class="score">1.666085</div>
+          <p>Lower is better, so this is a meaningful improvement.</p>
+        </div>
+        <div class="card">
+          <strong>Best model shape</strong>
+          <div class="score">2 layers</div>
+          <p>A shallower but wider model worked best for this short run.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Main lesson:</strong> under a 5-minute training budget on this Mac, the winning
+        strategy was not “make the model bigger everywhere.” The best result came from making it
+        shallower, moderately wider, and tuning the learning rates and regularization so it could
+        learn quickly without becoming unstable.
+      </div>
+    </section>
+
+    <section id="model">
+      <h2>What Is A Model?</h2>
+      <p>
+        In this project, a model is not just one file. It is two things working together:
+      </p>
+      <ol>
+        <li><strong>The architecture:</strong> the recipe for the model, written in code. This says how many layers it has, how wide each layer is, and how text flows through it.</li>
+        <li><strong>The parameters:</strong> millions of numbers inside that architecture. Training adjusts these numbers so the model gets better at predicting the next token.</li>
+      </ol>
+      <p>
+        <code>train.py</code> defines the architecture and training process. During a run, PyTorch
+        creates the model in memory, fills it with starting numbers, trains those numbers, evaluates
+        the result, prints metrics, and exits.
+      </p>
+      <div class="callout bad">
+        <strong>Important:</strong> this script does not currently save a trained model checkpoint.
+        It is an experiment harness for comparing ideas. The result that persists is the score in
+        <code>results.tsv</code> and the code changes that produced better scores.
+      </div>
+      <p>
+        A simple mental model:
+      </p>
+      <pre><code>Architecture = the empty machine design
+Parameters   = the knobs inside the machine
+Training     = turning those knobs using examples
+Evaluation   = checking whether the machine predicts held-back text better</code></pre>
+    </section>
+
+    <section id="loop">
+      <h2>What The Research Agent Did</h2>
+      <p>
+        The agent followed the loop described in <code>program.md</code>:
+      </p>
+      <ol>
+        <li>Pick one idea, such as “try a smaller batch size.”</li>
+        <li>Edit <code>train.py</code>.</li>
+        <li>Commit the experiment.</li>
+        <li>Run <code>uv run train.py &gt; run.log 2&gt;&amp;1</code>.</li>
+        <li>Read the final score from <code>run.log</code>.</li>
+        <li>Write the result to <code>results.tsv</code>.</li>
+        <li>Keep the code change if <code>val_bpb</code> improved.</li>
+        <li>Revert the code change if <code>val_bpb</code> got worse.</li>
+      </ol>
+      <p>
+        This is why <code>results.tsv</code> contains both <code>keep</code> and
+        <code>discard</code> rows. A discarded experiment is still useful because it tells us
+        which direction did not help.
+      </p>
+    </section>
+
+    <section id="parameters">
+      <h2>The Parameters We Adjusted</h2>
+      <p>
+        These are the main knobs changed during the run. Think of them as choices about model size,
+        learning speed, and how aggressively the model is allowed to fit the data.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Plain-English Meaning</th>
+            <th>Why It Matters</th>
+            <th>Best Direction Found</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TOTAL_BATCH_SIZE</code></td>
+            <td>How many tokens the model studies before each update.</td>
+            <td>Smaller batches mean more frequent updates in the same time budget.</td>
+            <td>Smaller was much better: <code>2**16</code> to <code>2**15</code>.</td>
+          </tr>
+          <tr>
+            <td><code>DEPTH</code></td>
+            <td>How many transformer layers the model has.</td>
+            <td>More layers give capacity, but each step is slower.</td>
+            <td>Depth 2 beat depth 4, 3, and 1.</td>
+          </tr>
+          <tr>
+            <td><code>ASPECT_RATIO</code></td>
+            <td>Controls model width. In this code, width is based on depth times this value.</td>
+            <td>Wider layers can learn richer patterns, but slow training.</td>
+            <td>Aspect 128 helped; aspect 192 was too much.</td>
+          </tr>
+          <tr>
+            <td><code>MATRIX_LR</code></td>
+            <td>Learning rate for the main matrix weights optimized by Muon.</td>
+            <td>Controls how big the main internal weight updates are.</td>
+            <td><code>0.03</code> worked best among tested values.</td>
+          </tr>
+          <tr>
+            <td><code>EMBEDDING_LR</code></td>
+            <td>Learning rate for token embeddings: the model's learned representation of tokens.</td>
+            <td>Controls how fast the model learns useful meanings for token IDs.</td>
+            <td><code>0.8</code> beat <code>0.6</code>, <code>0.9</code>, and <code>1.0</code>.</td>
+          </tr>
+          <tr>
+            <td><code>UNEMBEDDING_LR</code></td>
+            <td>Learning rate for the output head that turns internal state into next-token predictions.</td>
+            <td>Controls how quickly the final prediction layer changes.</td>
+            <td>The original <code>0.004</code> was best among tested values.</td>
+          </tr>
+          <tr>
+            <td><code>WEIGHT_DECAY</code></td>
+            <td>A regularization force that discourages weights from growing too freely.</td>
+            <td>Can improve generalization, especially on smaller datasets.</td>
+            <td><code>0.3</code> beat <code>0.2</code>, <code>0.1</code>, <code>0.35</code>, and <code>0.4</code>.</td>
+          </tr>
+          <tr>
+            <td><code>WARMDOWN_RATIO</code> and <code>FINAL_LR_FRAC</code></td>
+            <td>How the learning rate tapers down near the end of training.</td>
+            <td>Controls whether training slows down early, late, or not enough.</td>
+            <td>The original taper settings were best among tested variants.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="results">
+      <h2>What Happened In The Experiments</h2>
+      <p>
+        The score is <code>val_bpb</code>, or validation bits per byte. Lower is better. It is
+        measured on validation text that was held back from training.
+      </p>
+
+      <h3>Big Wins</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Change</th>
+            <th>Score</th>
+            <th>Interpretation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Baseline</td>
+            <td><code>1.842572</code></td>
+            <td>Starting point before tuning.</td>
+          </tr>
+          <tr>
+            <td>Smaller optimizer batch</td>
+            <td><code>1.710647</code></td>
+            <td>More frequent updates helped a lot.</td>
+          </tr>
+          <tr>
+            <td>Depth 3</td>
+            <td><code>1.698088</code></td>
+            <td>Shallower was faster and better under the time limit.</td>
+          </tr>
+          <tr>
+            <td>Depth 2</td>
+            <td><code>1.694426</code></td>
+            <td>Even shallower improved again.</td>
+          </tr>
+          <tr>
+            <td>Depth 2 plus wider layers</td>
+            <td><code>1.675139</code></td>
+            <td>Recovered useful capacity while staying fast.</td>
+          </tr>
+          <tr>
+            <td>Lower matrix LR on the wide shallow model</td>
+            <td><code>1.673504</code></td>
+            <td>Main weights needed slightly gentler updates after the architecture changed.</td>
+          </tr>
+          <tr>
+            <td>Higher embedding LR</td>
+            <td><code>1.669677</code></td>
+            <td>Token representations benefited from faster learning.</td>
+          </tr>
+          <tr>
+            <td>Higher weight decay</td>
+            <td><code>1.666085</code></td>
+            <td>Stronger regularization gave the best validation score.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Things That Did Not Help</h3>
+      <ul>
+        <li><strong>One layer:</strong> faster, but not enough capacity. Score worsened to <code>1.703351</code>.</li>
+        <li><strong>Extra-wide model:</strong> more capacity, but too slow or too large for the budget. Score worsened to <code>1.713592</code>.</li>
+        <li><strong>Matrix LR too low:</strong> <code>0.02</code> and <code>0.025</code> undertrained compared with <code>0.03</code>.</li>
+        <li><strong>Embedding LR too high:</strong> <code>0.9</code> and <code>1.0</code> overshot the better <code>0.8</code> setting.</li>
+        <li><strong>Unembedding LR changes:</strong> both higher and lower were worse than the original <code>0.004</code>.</li>
+        <li><strong>Learning-rate schedule changes:</strong> tested warmdown changes were worse than the original schedule.</li>
+      </ul>
+    </section>
+
+    <section id="lessons">
+      <h2>How These Changes Affected The Model</h2>
+      <h3>1. The model learned from more feedback</h3>
+      <p>
+        Reducing <code>TOTAL_BATCH_SIZE</code> meant the optimizer updated the model more often.
+        Under a short 5-minute budget, more update chances mattered.
+      </p>
+
+      <h3>2. The model became shallower and faster</h3>
+      <p>
+        Reducing <code>DEPTH</code> made each training step cheaper. The model had less stacked
+        reasoning depth, but it could process more tokens and take more optimizer steps. For this
+        task and time budget, depth 2 was the best tradeoff.
+      </p>
+
+      <h3>3. The model got width back after losing depth</h3>
+      <p>
+        Increasing <code>ASPECT_RATIO</code> made the two-layer model wider. That gave each layer
+        more room to represent patterns while keeping the model shallow enough to train quickly.
+      </p>
+
+      <h3>4. Different parts of the model needed different learning speeds</h3>
+      <p>
+        The main matrix weights preferred <code>MATRIX_LR=0.03</code>. Token embeddings preferred
+        a faster <code>EMBEDDING_LR=0.8</code>. The output head preferred staying at
+        <code>UNEMBEDDING_LR=0.004</code>. These are different sets of model numbers, so it is
+        normal for them to want different update sizes.
+      </p>
+
+      <h3>5. More regularization helped</h3>
+      <p>
+        Raising <code>WEIGHT_DECAY</code> to <code>0.3</code> improved validation score. In plain
+        English, it added a stronger “do not memorize too wildly” pressure while the model learned.
+      </p>
+    </section>
+
+    <section id="glossary">
+      <h2>Glossary</h2>
+      <div class="term">
+        <strong>Model</strong>
+        <span>The architecture plus the learned numbers inside it.</span>
+      </div>
+      <div class="term">
+        <strong>Architecture</strong>
+        <span>The model's structure: layers, width, attention blocks, embeddings, and output head.</span>
+      </div>
+      <div class="term">
+        <strong>Parameter</strong>
+        <span>A learned number inside the model. Training changes these numbers.</span>
+      </div>
+      <div class="term">
+        <strong>Hyperparameter</strong>
+        <span>A setting chosen by us before training, such as depth, learning rate, or batch size.</span>
+      </div>
+      <div class="term">
+        <strong>Learning rate</strong>
+        <span>How large each training update is. Too low learns slowly; too high can overshoot.</span>
+      </div>
+      <div class="term">
+        <strong>Batch size</strong>
+        <span>How many tokens are used before one optimizer update.</span>
+      </div>
+      <div class="term">
+        <strong>Optimizer</strong>
+        <span>The algorithm that updates model parameters based on training error.</span>
+      </div>
+      <div class="term">
+        <strong>Embedding</strong>
+        <span>The learned numeric representation of a token.</span>
+      </div>
+      <div class="term">
+        <strong>Unembedding / output head</strong>
+        <span>The layer that turns the model's internal state into next-token predictions.</span>
+      </div>
+      <div class="term">
+        <strong>Weight decay</strong>
+        <span>A regularization setting that discourages weights from growing too freely.</span>
+      </div>
+      <div class="term">
+        <strong>Validation</strong>
+        <span>Testing the trained model on held-back text it did not train on directly.</span>
+      </div>
+      <div class="term">
+        <strong>val_bpb</strong>
+        <span>Validation bits per byte. This run's score. Lower is better.</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    Generated from <code>results.tsv</code> and the current best <code>train.py</code> settings on
+    the <code>autoresearch/may20-folktales</code> branch.
+  </footer>
+</body>
+</html>
