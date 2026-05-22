@@ -3,3 +3,4 @@ commit	val_bpb	memory_gb	status	description
 de070ee	1.710647	0.0	keep	smaller optimizer batch 2**15
 b5d41c0	1.715136	0.0	discard	shorter LR warmdown 0.25
 65c1e1e	1.734001	0.0	discard	lower matrix LR 0.03
+8c111bb	1.717944	0.0	discard	higher matrix LR 0.05
