@@ -16,3 +16,4 @@ bbcd935	1.674151	0.0	discard	lower embedding LR 0.4
 9c0fbc3	1.669677	0.0	keep	higher embedding LR 0.8
 7a3313b	1.674022	0.0	discard	embedding LR 1.0
 919f235	1.677354	0.0	discard	embedding LR 0.9
+e764b61	1.689372	0.0	discard	higher unembedding LR 0.006
