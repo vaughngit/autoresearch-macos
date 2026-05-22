@@ -19,3 +19,4 @@ bbcd935	1.674151	0.0	discard	lower embedding LR 0.4
 e764b61	1.689372	0.0	discard	higher unembedding LR 0.006
 5b4cb10	1.670902	0.0	discard	lower unembedding LR 0.002
 a6743e2	1.672559	0.0	discard	lower weight decay 0.1
+0f7d122	1.666085	0.0	keep	higher weight decay 0.3
