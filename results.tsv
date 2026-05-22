@@ -5,3 +5,4 @@ b5d41c0	1.715136	0.0	discard	shorter LR warmdown 0.25
 65c1e1e	1.734001	0.0	discard	lower matrix LR 0.03
 8c111bb	1.717944	0.0	discard	higher matrix LR 0.05
 1ad4793	1.698088	0.0	keep	shallower model depth 3
+2bc32c6	1.694426	0.0	keep	two layer model
