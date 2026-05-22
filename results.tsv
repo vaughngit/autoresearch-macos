@@ -14,3 +14,4 @@ d8d9ada	1.696371	0.0	discard	matrix LR 0.02
 e231ae8	1.687227	0.0	discard	matrix LR 0.025
 bbcd935	1.674151	0.0	discard	lower embedding LR 0.4
 9c0fbc3	1.669677	0.0	keep	higher embedding LR 0.8
+7a3313b	1.674022	0.0	discard	embedding LR 1.0
