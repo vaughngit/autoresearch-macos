@@ -9,3 +9,4 @@ b5d41c0	1.715136	0.0	discard	shorter LR warmdown 0.25
 2d00fdf	1.703351	0.0	discard	one layer model
 ebd05a9	1.675139	0.0	keep	wider two layer model aspect 128
 33370c7	1.713592	0.0	discard	extra wide two layer model aspect 192
+9c85de3	1.673504	0.0	keep	lower matrix LR 0.03 on wide shallow model
